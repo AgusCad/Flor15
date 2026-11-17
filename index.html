@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>15 de Abril</title>
+  <style>
+    :root {
+      --red-1: #ff6b6b;
+      --red-2: #ff8a80;
+      --red-3: #f45b69;
+      --red-4: #ff7f7f;
+      --red-5: #ff5252;
+      --text: #fff7fb;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      color: var(--text);
+      overflow-x: hidden;
+      background: linear-gradient(-45deg, var(--red-1), var(--red-2), var(--red-3), var(--red-4), var(--red-5));
+      background-size: 400% 400%;
+      animation: bgShift 18s ease infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    @keyframes bgShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Intro screen */
+    .intro {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(-45deg, var(--red-1), var(--red-2), var(--red-3), var(--red-4), var(--red-5));
+      background-size: 400% 400%;
+      animation: bgShift 18s ease infinite;
+      z-index: 10;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .intro.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .intro-btn {
+      appearance: none;
+      -webkit-appearance: none;
+      border: none;
+      background: transparent;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+      animation: btnFloat 4.5s ease-in-out infinite;
+      transition: transform 0.25s ease;
+      line-height: 0;
+    }
+    .intro-btn:focus-visible {
+      outline: 2px solid rgba(255,255,255,0.85);
+      outline-offset: 8px;
+      border-radius: 16px;
+    }
+    .intro-btn:hover {
+      transform: translateY(-2px) scale(1.01);
+    }
+    .intro-btn:active {
+      transform: translateY(0) scale(0.99);
+    }
+    .envelope {
+      position: relative;
+      display: block;
+      width: min(112px, 32vw);
+      aspect-ratio: 4 / 3;
+      transition: transform 0.35s ease;
+    }
+    .intro-btn:hover .envelope {
+      transform: translateY(-3px);
+    }
+    .envelope-body {
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #f7ccd7;
+      perspective: 320px;
+      filter: drop-shadow(0 12px 18px rgba(90, 25, 45, 0.28)) drop-shadow(0 3px 5px rgba(70, 20, 35, 0.16));
+      transition: filter 0.35s ease;
+    }
+    .intro-btn:hover .envelope-body {
+      filter: drop-shadow(0 16px 24px rgba(90, 25, 45, 0.3)) drop-shadow(0 5px 8px rgba(70, 20, 35, 0.18));
+    }
+    .envelope-body::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 6;
+      border-radius: inherit;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.16);
+      pointer-events: none;
+    }
+    .envelope-back {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, #f9d8e1 0%, #f2bccb 100%);
+    }
+    .envelope-front {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 64%;
+      background: linear-gradient(180deg, #f8d7df 0%, #f0b9c7 100%);
+      clip-path: polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%);
+      z-index: 3;
+    }
+    .envelope-front::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(206, 130, 152, 0.16), transparent 45%);
+      pointer-events: none;
+    }
+    .envelope-flap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 64%;
+      background: linear-gradient(180deg, #fbe3e9 0%, #f5ccd6 100%);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: top center;
+      z-index: 4;
+      filter: drop-shadow(0 1px 0 rgba(255,255,255,1)) drop-shadow(0 0 1px rgba(255,255,255,0.5)) drop-shadow(0 2px 3px rgba(176, 95, 120, 0.28));
+      transition: transform 0.35s ease, filter 0.35s ease;
+    }
+    .envelope-flap::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.02) 45%, transparent 70%);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      pointer-events: none;
+    }
+    .intro-btn:hover .envelope-flap {
+      transform: rotateX(12deg) translateY(-1px);
+      filter: brightness(1.02) drop-shadow(0 1px 0 rgba(255,255,255,1)) drop-shadow(0 0 1px rgba(255,255,255,0.55)) drop-shadow(0 3px 4px rgba(176, 95, 120, 0.3));
+    }
+    .envelope-seal {
+      position: absolute;
+      left: 50%;
+      top: 54%;
+      width: 44%;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+      transition: transform 0.35s ease, filter 0.35s ease;
+      filter: drop-shadow(0 3px 4px rgba(150, 45, 70, 0.3));
+    }
+    .envelope-seal svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      overflow: visible;
+    }
+    .envelope-seal::after {
+      content: "";
+      position: absolute;
+      inset: 6% 8% 30% 6%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.6), transparent 55%);
+      mix-blend-mode: screen;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .intro-btn:hover .envelope-seal {
+      transform: translate(-50%, -50%) scale(1.07);
+      filter: drop-shadow(0 4px 7px rgba(150, 45, 70, 0.32)) brightness(1.05);
+    }
+    .intro-btn:hover .envelope-seal::after {
+      opacity: 0.7;
+    }
+    .envelope-label {
+      position: absolute;
+      left: 50%;
+      bottom: -1.35rem;
+      transform: translateX(-50%);
+      z-index: 6;
+      font-size: clamp(0.5rem, 1.8vw, 0.62rem);
+      font-weight: 600;
+      color: rgba(255,255,255,0.95);
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      letter-spacing: 0.04em;
+      text-shadow: 0 1px 4px rgba(110, 35, 55, 0.45);
+      white-space: nowrap;
+      line-height: 1;
+    }
+
+    @keyframes btnFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    /* Fondo animado */
+    .bg-animations {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(2px);
+      opacity: 0.35;
+      animation: drift linear infinite;
+      mix-blend-mode: screen;
+    }
+    .float-item {
+      position: absolute;
+      bottom: -10vh;
+      color: rgba(255, 255, 255, 0.35);
+      animation: floatUp linear infinite;
+      user-select: none;
+      text-shadow: 0 0 10px rgba(255,255,255,0.25);
+    }
+    @keyframes drift {
+      0% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(40px, -60px) scale(1.08); }
+      66% { transform: translate(-30px, 30px) scale(0.95); }
+      100% { transform: translate(0, 0) scale(1); }
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) translateX(0) rotate(0deg) scale(0.8); opacity: 0; }
+      10% { opacity: 0.8; }
+      90% { opacity: 0.8; }
+      100% { transform: translateY(-120vh) translateX(var(--drift)) rotate(360deg) scale(1.2); opacity: 0; }
+    }
+
+    /* Main page */
+    .page {
+      display: none;
+      width: 100%;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+    .page.visible {
+      display: flex;
+      animation: pageEnter 0.8s ease both;
+    }
+    @keyframes pageEnter {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 2.5rem 2rem;
+      max-width: 560px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 24px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+
+    h1 {
+      font-size: clamp(2rem, 6vw, 3rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 0.4rem;
+      color: #fff;
+    }
+
+    .date {
+      display: inline-block;
+      margin: 0.6rem 0 1.8rem;
+      padding: 0.5rem 1.2rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: #fff;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 999px;
+    }
+
+    /* Polaroid */
+    .polaroid {
+      width: min(320px, 85vw);
+      margin: 0 auto 1.8rem;
+      background: #fff;
+      padding: 14px 14px 52px;
+      border-radius: 4px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.4);
+      transform: rotate(-2deg);
+    }
+    .polaroid img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      background: #f2f2f2;
+    }
+
+    .message {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.95);
+      margin-bottom: 1.2rem;
+    }
+
+    .signature {
+      font-size: 1rem;
+      font-style: italic;
+      color: #ffe6e6;
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 2rem 1.25rem; }
+      .polaroid { padding: 10px 10px 42px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-animations" id="bgAnimations" aria-hidden="true"></div>
+
+  <div class="intro" id="intro">
+    <button class="intro-btn" id="enterBtn" type="button" aria-label="Abrir sobre Flor&lt;3">
+      <span class="envelope">
+        <span class="envelope-body">
+          <span class="envelope-back"></span>
+          <span class="envelope-flap"></span>
+          <span class="envelope-front"></span>
+        </span>
+        <span class="envelope-seal" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <defs>
+              <linearGradient id="heartGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#e26e87" />
+                <stop offset="0.55" stop-color="#d95573" />
+                <stop offset="1" stop-color="#cc4666" />
+              </linearGradient>
+            </defs>
+            <path fill="url(#heartGradient)" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+          </svg>
+        </span>
+        <span class="envelope-label">Flor&lt;3</span>
+      </span>
+    </button>
+  </div>
+
+  <main class="page" id="page">
+    <div class="card">
+      <h1>55 Meses</h1>
+      <div class="date">15 de abril</div>
+
+      <div class="polaroid">
+        <img src="fl15.jpeg" alt="Foto especial" onerror="this.onerror=null;this.src='placeholder.svg';" />
+      </div>
+
+      <p class="message">
+        Feliz Mes Mi Vida, espero poder hacerte feliz siempre y que nos elijamos 
+        todos los días una vez más. Te amo con todo mi ser<3. 
+      </p>
+      <p class="signature">Tu Agus</p>
+      <p class="signature">15/11/2026</p>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      const btn = document.getElementById('enterBtn');
+      const intro = document.getElementById('intro');
+      const page = document.getElementById('page');
+      btn.addEventListener('click', function () {
+        intro.classList.add('hidden');
+        page.classList.add('visible');
+      });
+
+      const bg = document.getElementById('bgAnimations');
+      const colors = ['rgba(255,255,255,0.25)', 'rgba(255,205,210,0.35)', 'rgba(255,138,128,0.3)', 'rgba(255,235,238,0.25)'];
+      for (let i = 0; i < 7; i++) {
+        const b = document.createElement('div');
+        b.className = 'blob';
+        const size = 120 + Math.random() * 220;
+        b.style.width = size + 'px';
+        b.style.height = size + 'px';
+        b.style.left = Math.random() * 100 + 'vw';
+        b.style.top = Math.random() * 100 + 'vh';
+        b.style.background = colors[Math.floor(Math.random() * colors.length)];
+        b.style.animationDuration = (18 + Math.random() * 18) + 's';
+        b.style.animationDelay = (-Math.random() * 20) + 's';
+        bg.appendChild(b);
+      }
+
+      const symbols = ['❤', '♥', '✦', '✧', '•'];
+      for (let i = 0; i < 18; i++) {
+        const el = document.createElement('span');
+        el.className = 'float-item';
+        el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        const size = 12 + Math.random() * 20;
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.fontSize = size + 'px';
+        el.style.animationDuration = (12 + Math.random() * 16) + 's';
+        el.style.animationDelay = (-Math.random() * 14) + 's';
+        el.style.setProperty('--drift', (Math.random() * 120 - 60).toFixed(0) + 'px');
+        bg.appendChild(el);
+      }
+    })();
+  </script>
+</body>
+</html>
